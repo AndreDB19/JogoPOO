@@ -24,17 +24,21 @@ public class player : MonoBehaviour
     {
         PlayerInput = GetComponent<PlayerInput>();
         RBPlayer = GetComponent<Rigidbody2D>();
+
         MoveAction = PlayerInput.actions["move"];
         ShootAction = PlayerInput.actions["attack"];
+
         ChangeState(PlayerMovementState);
+
         score = 0;
+
+        health = 4;
     }
 
 
     void Update()
     {
         position = GetComponent<Transform>().position;
-        CurrentState.Do();
     }
 
     void FixedUpdate()
@@ -69,9 +73,15 @@ public class player : MonoBehaviour
 
         if(health <= 0)
         {
-            GameManager.pause();
+            GameManager.end();
 
         }
+    }
+    public void Spawnar()
+    {
+        health = 4;
+        transform.position = new Vector3(0, 0,0);
+        score = 0;
     }
 
     void OnCollisionEnter2D(Collision2D collision) 
@@ -83,10 +93,5 @@ public class player : MonoBehaviour
         
     }
 
-    public void Spawnar()
-    {
-        health = 4;
-        transform.position = new Vector3(0, 0,0);
-        score = 0;
-    }
+    
 }

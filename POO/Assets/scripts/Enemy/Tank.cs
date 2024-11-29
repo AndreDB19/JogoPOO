@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Tank : Enemy
 {
-
-    public Transform PlayerTransform;
     private void Start()
     {
         health = 2;
         speed = 1f;
-        PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        score = 2;
         Physics.IgnoreLayerCollision(8, 8, true);
+        player = GameObject.FindWithTag("Player").GetComponent<player>();
+        
     }
 
     public override void DropItem()
@@ -19,7 +19,7 @@ public class Tank : Enemy
 
     public override void MoveTo()
     {
-        position = PlayerTransform.position;
+        position = player.position;
         transform.position = Vector3.MoveTowards(transform.position, position, speed* Time.deltaTime);
     }
 
@@ -27,6 +27,5 @@ public class Tank : Enemy
     private void FixedUpdate()
     {
         MoveTo();
-        DropItem();
     }
 }

@@ -9,6 +9,8 @@ TagManager:
   - Spawner
   - Texto
   - GameManager
+  - TelaPrincipal
+  - UI
   layers:
   - Default
   - TransparentFX

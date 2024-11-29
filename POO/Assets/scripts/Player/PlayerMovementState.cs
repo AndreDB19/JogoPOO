@@ -4,14 +4,11 @@ using UnityEngine;
 public class PlayerMovementState : states
 {   
     public player player;
-    private float maxLinearVelocity;
     private float velocity;
     public GameObject Bullet;
     private int DelayShoot = 0;
 
-
-    
-    
+    private Vector3 shootDirection;
 
     private void Move()
     {
@@ -24,9 +21,9 @@ public class PlayerMovementState : states
         if(player.ShootAction.ReadValue<Vector2>() != new Vector2(0,0) && DelayShoot > 25)
         {
 
-            player.position = new Vector3(player.position.x+player.ShootAction.ReadValue<Vector2>().x, player.position.y+player.ShootAction.ReadValue<Vector2>().y,player.position.z);
+            shootDirection = new Vector3(player.position.x+player.ShootAction.ReadValue<Vector2>().x, player.position.y+player.ShootAction.ReadValue<Vector2>().y,player.position.z);
 
-            Instantiate(Bullet, player.position , Quaternion.identity);
+            Instantiate(Bullet, shootDirection , Quaternion.identity);
             DelayShoot = 0;
         }
         DelayShoot++;
@@ -35,18 +32,18 @@ public class PlayerMovementState : states
     public override void Enter()
     {
         velocity = 10f;
-        player.health=4;
     }
 
     public override void Do()
     {
         
-        Move();
+        
     }
 
     public override void FixedDo()
     {
         shoot();
+        Move();
     }
 
     public override void LateDo()
@@ -56,7 +53,7 @@ public class PlayerMovementState : states
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+    
     }
 
 

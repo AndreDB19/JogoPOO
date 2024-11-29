@@ -7,22 +7,32 @@ public class GameManager : MonoBehaviour
     public int timer = 0;
     
     public GameObject TelaMorte;
+    public player player;
+    public Text text;
+    public GameObject[] spawner;
+    public GameObject Minion;
+    public GameObject Tank;
+    public GameObject UI;
 
     public string path;
     public string[] allLines;
+
     public int MaxScore;
-    public player player;
     public string[] newScore;
 
-    public Text text;
+    public int spawned = 0;
 
     void Start()
     {
         TelaMorte=GameObject.FindWithTag("TelaMorte");
         text = GameObject.FindWithTag("Texto").GetComponent<Text>();
-        TelaMorte.SetActive(false);
-        path = @"D:\projects\projeto Game dev\POO\POO\Assets\scripts\Pontuação.txt";
         player = GameObject.FindWithTag("Player").GetComponent<player>();
+        spawner = GameObject.FindGameObjectsWithTag("Spawner");
+        UI = GameObject.FindWithTag("UI");
+        
+        path = @"D:\projects\projeto Game dev\JogoPOO\POO\Assets\scripts\Pontuação.txt";
+
+        TelaMorte.SetActive(false);
         
     }
 
@@ -30,12 +40,14 @@ public class GameManager : MonoBehaviour
     void FixedUpdate()
     {
         timer++;
+        Spawnar();
     }
 
-    public void pause()
+    public void end()
     {
         if (Time.timeScale == 0) {
             Time.timeScale = 1;
+            UI.SetActive(true);
             TelaMorte.SetActive(false);
             player.Spawnar();
         } else if (Time.timeScale == 1) {
@@ -43,10 +55,12 @@ public class GameManager : MonoBehaviour
             NovaPontuacao();
             TelaMorte.SetActive(true);
             text.mudarTexto();
+            UI.SetActive(false);
         }
-        GameObject.FindWithTag("Spawner").GetComponent<Spawner>().spawned = 0;
+        spawned = 0;
         
     }
+
     public void NovaPontuacao()
     {
          try
@@ -69,5 +83,18 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(e);
         }
+    }
+
+    public void Spawnar()
+    {
+        if(timer%40==0 )
+            {
+                Instantiate(Minion, spawner[UnityEngine.Random.Range(0, 4)].transform.position, Quaternion.identity);
+                spawned++;
+                if(spawned%2==0)
+                {
+                    Instantiate(Tank, spawner[UnityEngine.Random.Range(0, 4)].transform.position, Quaternion.identity);
+                }
+            }
     }
 }

@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class Minion : Enemy
 {
-    public Transform PlayerTransform;
     private void Start()
     {
         health = 1;
         speed = 2f;
-        PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        score = 1;
         Physics.IgnoreLayerCollision(8, 8, true);
+        player = GameObject.FindWithTag("Player").GetComponent<player>();
     }
 
     public override void DropItem()
     {
-        
+        //throw new System.NotImplementedException();
     }
 
     public override void MoveTo()
     {
-        position = PlayerTransform.position;
+        position = player.position;
         transform.position = Vector3.MoveTowards(transform.position, position, speed* Time.deltaTime);
     }
 

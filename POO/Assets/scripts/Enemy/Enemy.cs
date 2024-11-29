@@ -6,6 +6,8 @@ public abstract class Enemy : MonoBehaviour
 
     public float speed;
     public Vector3 position;
+    public player player;
+    public int score;
 
     public abstract void MoveTo();
     public abstract void DropItem();
@@ -15,7 +17,7 @@ public abstract class Enemy : MonoBehaviour
         if(health <= 0)
         {
             DropItem();
-            GameObject.FindWithTag("Player").GetComponent<player>().score += 1;
+            player.score += score;
             Destroy(gameObject);
         }
     }
